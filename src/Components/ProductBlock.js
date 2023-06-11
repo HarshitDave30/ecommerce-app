@@ -12,6 +12,7 @@ import ProductContext from "./ProductContext";
 import Avatar from "@mui/material/Avatar";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import { TextField } from "@mui/material";
 
 const review = [
   {
@@ -41,10 +42,36 @@ export default function ProductBlock() {
   const [value, setValue] = useState(4);
 
   const viewproduct = useContext(ProductContext);
+  const [badgevalue, setBadgevalue] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [reviewcontent, setReviewcontent] = useState("");
+  const [reviews, setReviews] = useState(review);
 
   useEffect(() => {
     window.localStorage.setItem("viewproduct", JSON.stringify(viewproduct));
   }, [viewproduct]);
+
+  const handleFirstName = (e) => {
+    setFirstname(e);
+    setBadgevalue(e[0].toUpperCase());
+  };
+
+  const handleReviewText = (e) => {
+    setReviewcontent(e);
+  };
+
+  const handleClick = () => {
+    const newReview = {
+      badge: badgevalue,
+      name: firstname,
+      rating: value,
+      reviewtext: reviewcontent,
+    };
+
+    setReviews([...reviews, newReview]);
+    setFirstname("");
+    setReviewcontent("");
+  };
 
   return (
     <>
@@ -106,7 +133,7 @@ export default function ProductBlock() {
             <Typography gutterBottom variant="h4" component="div">
               Product Review
             </Typography>
-            {review.map((element, index) => {
+            {reviews.map((element, index) => {
               return (
                 <React.Fragment key={index}>
                   <Box
@@ -134,6 +161,50 @@ export default function ProductBlock() {
                 </React.Fragment>
               );
             })}
+            <Typography gutterBottom variant="h4" component="div">
+              Add A Review
+            </Typography>
+            <Box component="form" sx={{ marginBottom: 2 }}>
+              <TextField
+                sx={{ marginBottom: 5 }}
+                fullWidth
+                id="standard-basic"
+                color="secondary"
+                label="First Name"
+                value={firstname}
+                onChange={(e) => handleFirstName(e.target.value)}
+                focused
+                variant="standard"
+              />
+              <TextField
+                sx={{ marginBottom: 5 }}
+                fullWidth
+                id="standard-basic1"
+                color="secondary"
+                label="Write A Review"
+                value={reviewcontent}
+                onChange={(e) => handleReviewText(e.target.value)}
+                focused
+                variant="standard"
+              />
+              <Paper elevation={0} sx={{ marginBottom: 2 }}>
+                <Rating
+                  name="simple-controlled"
+                  value={value}
+                  onChange={(event, newValue) => {
+                    setValue(newValue);
+                  }}
+                />
+              </Paper>
+              <Button
+                variant="contained"
+                onClick={handleClick}
+                size="large"
+                sx={{ fontWeight: 700 }}
+              >
+                ADD REVIEW
+              </Button>
+            </Box>
           </Grid>
         </Grid>
       </Container>
