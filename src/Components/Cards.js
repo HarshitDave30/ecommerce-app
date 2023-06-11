@@ -11,12 +11,14 @@ import { content } from "./Content";
 import Search from "./Search";
 import Size from "./Size";
 import CartModal from "./CartModal";
+import { Link } from "react-router-dom";
 
-export default function Cards({ setCartvalue, cartvalue }) {
+export default function Cards({ setCartvalue, cartvalue, setViewproduct }) {
+
   const [open, setOpen] = useState(false);
-
   const [cart, setCart] = useState([]);
   const [activeid, setActiveid] = useState(0);
+  const [product, setProduct] = useState(content);
 
   const handleClick = (e) => {
     setOpen(true);
@@ -31,15 +33,9 @@ export default function Cards({ setCartvalue, cartvalue }) {
     setActiveid(e.id);
   };
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
+  const productClick = (e) => {
+    setViewproduct(e);
   };
-
-  const [product, setProduct] = useState(content);
 
   return (
     <Container fixed>
@@ -88,6 +84,14 @@ export default function Cards({ setCartvalue, cartvalue }) {
                       onClick={() => handleClick(element)}
                     >
                       ADD TO CART
+                    </Button>
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => productClick(element)}
+                      sx={{ fontWeight: 700, marginBottom: 2 }}
+                    >
+                      <Link to="/product-view">VIEW PRODUCT</Link>
                     </Button>
                   </CardActions>
                 </Card>
