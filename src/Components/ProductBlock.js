@@ -40,6 +40,7 @@ const review = [
 
 export default function ProductBlock() {
   const [value, setValue] = useState(4);
+  const [product, setProduct] = useState([]);
 
   const viewproduct = useContext(ProductContext);
   const [badgevalue, setBadgevalue] = useState("");
@@ -48,7 +49,8 @@ export default function ProductBlock() {
   const [reviews, setReviews] = useState(review);
 
   useEffect(() => {
-    window.localStorage.setItem("viewproduct", JSON.stringify(viewproduct));
+    let dataa = JSON.parse(localStorage.getItem("item"));
+    setProduct(dataa);
   }, [viewproduct]);
 
   const handleFirstName = (e) => {
@@ -81,7 +83,7 @@ export default function ProductBlock() {
           Product Description
         </Typography>
         <Grid container spacing={2}>
-          {[viewproduct].map((e, index) => {
+          {[product].map((e, index) => {
             return (
               <React.Fragment key={index}>
                 <Grid item xs={12} md={6}>

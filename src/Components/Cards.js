@@ -14,7 +14,6 @@ import CartModal from "./CartModal";
 import { Link } from "react-router-dom";
 
 export default function Cards({ setCartvalue, cartvalue, setViewproduct }) {
-
   const [open, setOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [activeid, setActiveid] = useState(0);
@@ -35,6 +34,7 @@ export default function Cards({ setCartvalue, cartvalue, setViewproduct }) {
 
   const productClick = (e) => {
     setViewproduct(e);
+    localStorage.setItem("item", JSON.stringify(e));
   };
 
   return (
